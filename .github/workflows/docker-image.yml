@@ -17,4 +17,4 @@ jobs:
     - name: Build the Docker image
       run: |
        docker build . --file Dockerfile --tag mk-nginx:$(date +%s)
-       docker exec mk-nginx:$(date +%s) sh -c "nginx -V"
+       docker run --rm mk-nginx:$(date +%s) sh -c "nginx -V"
