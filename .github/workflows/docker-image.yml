@@ -15,6 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: |
-       docker build . --file Dockerfile --tag mk-nginx:$(date +%s)
-       docker run --rm mk-nginx:$(date +%s) sh -c "nginx -V"
+      run: docker build . --file Dockerfile --tag mk-nginx:$(date +%s)
