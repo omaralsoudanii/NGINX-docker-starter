@@ -188,14 +188,6 @@ RUN \
 	&& ln -sf /dev/stderr /var/log/nginx/error.log
 
 
-# COPY your NGINX configuration files to the container
-COPY ./conf/ /etc/nginx
-
-# Define your servers here 
-COPY ./conf.d/ /etc/nginx/conf.d
-
-# Don't copy SSL Certs.... just don't, mount them via docker volumes
-
 # Override stop signal to stop process gracefully
 STOPSIGNAL SIGQUIT
 
