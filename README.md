@@ -61,7 +61,7 @@ The docker image build is automatically triggered on new releases or tuning I ma
 
 **Note**: Check the configration and read them, I documented most of the directives — some of them are only suitable for production, some are for proxy configration and the demo is static so I didn't use the caching or the proxy in the demo.
 
-Remove comments from those when it suits you (production, or you have a server that you want nginx to be a proxy). Also some are kinda needs a bit of research before enabling them (I added a warning for those), also watchout for the main `nginx.conf`, it is not in the `conf` directory it's outside in the root dir which is the main entry point for NGINX — this is because docker volume mapping overrides `/etc/nginx` if you just mount that to `conf`.
+Remove comments from those when it suits you (production, or you have a server that you want nginx to be a proxy). Also some are kinda needs a bit of research before enabling them (I added a warning for those), also watch out for the main `nginx.conf`, it is not in the `conf` directory it's outside in the root dir which is the main entry point for NGINX — this is because docker volume mapping overrides `/etc/nginx` if you just mount that to `conf`.
 
 ## Why it's not synced with the original repo?
 
