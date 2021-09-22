@@ -1,4 +1,8 @@
+![nginx (2)](https://user-images.githubusercontent.com/7079173/134287097-de25f42c-12d7-4321-a2b1-5bfc26971b7f.jpg)
+
 # NGINX-docker-starter
+
+[![Image published](https://github.com/omaralsoudanii/NGINX-docker-starter/actions/workflows/release.yaml/badge.svg)](https://github.com/omaralsoudanii/NGINX-docker-starter/actions/workflows/release.yaml)
 
 This is a boilerplate NGINX configs using Docker, you can include it in your repo and add your server(s) config.
 
