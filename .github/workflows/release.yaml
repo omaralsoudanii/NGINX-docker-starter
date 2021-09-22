@@ -1,4 +1,4 @@
-name: Publish to Docker hub and GitHub registry on new releases
+name: Image published
 
 on:
   release:
