@@ -4,15 +4,9 @@ services:
     image: omaralsoudani/nginx-brotli
     container_name: mk-nginx
     restart: unless-stopped
+    network_mode: host
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./conf:/etc/nginx/extras
       - ./conf.d:/etc/nginx/conf.d
       - ./public:/usr/share/nginx/html
-    ports:
-      - 80:80
-    networks:
-      - mk_nginx
-
-networks:
-  mk_nginx:

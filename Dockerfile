@@ -165,7 +165,7 @@ RUN \
 # Multi build stage 2, again from alpine. This is the release stage, which contains the installed NGINX only
 FROM alpine:3.14.2 as release
 ARG NGINX_VERSION
-
+RUN apk add --no-cache tini
 # Copy nginx and it's deps from build stage
 COPY --from=build /tmp/runDeps.txt /tmp/runDeps.txt
 COPY --from=build /etc/nginx /etc/nginx
@@ -189,7 +189,11 @@ RUN \
 
 
 # Override stop signal to stop process gracefully
+# Yeah SIGQUIT because NGINX deals with that...
 STOPSIGNAL SIGQUIT
+
+# use tini https://github.com/krallin/tini
+ENTRYPOINT ["/sbin/tini", "--"]
 
 # Start NGINX
 CMD ["nginx", "-g", "daemon off;"]
