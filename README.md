@@ -20,29 +20,18 @@ The docker image build is automatically triggered on new releases or tuning I ma
 
 ## Examples
 
-- I added a working demo here, make sure port 80 is not used and run the following:
+- I added a working demo here, **make sure port 80**, or change it by removing `network_mode` in `docker-compose.yml` is not used and run the following:
+
   ```bash
   docker-compose up -d
   ```
-  Then navigate to http://localhost — the files served from the public folder in the repository.
+  Then navigate to http://localhost — the files (just one file...) served from the public folder in the repository.
 
-- Add the image to a Dockerfile in your build process:
-    
-  ```docker
-  # Start from the base image
-  FROM omaralsoudani/nginx-brotli
-  
-  # copy my configs
-  COPY ./nginx.conf /etc/nginx/nginx.conf
-  COPY ./conf /etc/nginx/extras
-  COPY ./conf.d /etc/nginx/conf.d
-  
-  # Run NGINX
-  CMD ["nginx", "-g", "daemon off;"]
-    ```
+- Add the image to a Dockerfile in your build process — check `Dockerfile.demo` for reference.
 
 - Add it in a docker compose file:
-  ```yaml
+
+```yaml
   version: "3.6"
   services:
     mk-nginx:
@@ -50,23 +39,29 @@ The docker image build is automatically triggered on new releases or tuning I ma
         container_name: mk-nginx
         restart: unless-stopped
         volumes:
-        - ./nginx.conf:/etc/nginx/nginx.conf
-        - ./conf:/etc/nginx/extras
-        - ./conf.d:/etc/nginx/conf.d
-        - ./public:/usr/share/nginx/html
+          - /etc/ssl/mk/ecc.pem:/etc/nginx/ssl/ecc.pem:ro
+          - /etc/ssl/mk/priv.key:/etc/nginx/ssl/priv.key:ro
+          - /etc/ssl/mk/ca_root.pem:/etc/nginx/ssl/ca_root.pem:ro
+          - /etc/ssl/mk/dh/dhparam.pem:/etc/nginx/ssl/dhparam.pem:ro
+          # The below disables docker logging to stdout and uses file system (I like it with logrotate)
+          - /var/log/nginx:/var/log/nginx 
         ports:
-        - 80:80
+          - 80:80
+          - 443:443
         networks:
-        - mk_nginx
+          - mk_nginx
 
-  networks:
-    mk_nginx:
-  ```
+networks:
+  mk_nginx:
+```
+
+- You could also check the configs and the docker setup that I use on my personal site [mkreg.dev](https://github.com/omaralsoudanii/mkreg.dev/tree/main/docker)
+
 - You could ignore the published images and build it by your self using the [`Dockerfile`](https://github.com/omaralsoudanii/NGINX-docker-starter/blob/main/Dockerfile) (do it within the repo, since I am using NGINX signing key to verify the image), then read the [Integration](#how-to-integrate-in-my-project)
 
 **Note**: Check the configration and read them, I documented most of the directives — some of them are only suitable for production, some are for proxy configration and the demo is static so I didn't use the caching or the proxy in the demo.
 
-Remove comments from those when it suits you (production, or you have a server that you want nginx to be a proxy). Also some are kinda needs a bit of research before enabling them (I added a warning for those), also watch out for the main `nginx.conf`, it is not in the `conf` directory it's outside in the root dir which is the main entry point for NGINX — this is because docker volume mapping overrides `/etc/nginx` if you just mount that to `conf`.
+Remove comments from those when it suits you (production, or you have a server that you want nginx to be a proxy) — Also some needs a bit of research before enabling them (I added a warning for those).
 
 ## Why it's not synced with the original repo?
 

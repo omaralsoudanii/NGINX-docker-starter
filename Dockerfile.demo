@@ -1,0 +1,12 @@
+## This file is used for demo purpose only, check README for more details
+FROM omaralsoudani/nginx-brotli
+
+# COPY your NGINX configuration files to the container, and your servers in conf.d folder
+COPY ./conf/ /etc/nginx
+COPY ./conf.d/ /etc/nginx/conf.d
+
+# copy a demo page (index.html) for NGINX to serve inside public folder
+COPY ./public/ /usr/share/nginx/html
+
+# Start NGINX (the base image takes care of some things like docker STOPSIGNAL and using init as entrypoint)
+CMD ["nginx", "-g", "daemon off;"]

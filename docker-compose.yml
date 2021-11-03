@@ -1,12 +1,10 @@
 version: "3.6"
 services:
   mk-nginx:
-    image: omaralsoudani/nginx-brotli
+    build:
+      context: .
+      dockerfile: Dockerfile.demo
+    image: mk-nginx
     container_name: mk-nginx
     restart: unless-stopped
     network_mode: host
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - ./conf:/etc/nginx/extras
-      - ./conf.d:/etc/nginx/conf.d
-      - ./public:/usr/share/nginx/html
